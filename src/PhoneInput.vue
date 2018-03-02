@@ -13,7 +13,7 @@
         <li>
           <div class="row">
             <div class="col s10">
-              <input @click.stop="" v-model="search" value="" type="text" placeholder="Country"/>
+              <input @click.stop="" id="searchInput" v-model="search" value="" type="text" placeholder="Country"/>
             </div>
           </div>
         </li>
@@ -461,6 +461,10 @@
 
       showList () {
         this.isVisiblePanel = true
+        setTimeout(function(){
+          document.getElementById('searchInput').focus()
+        },0)
+
       },
 
       hideList () {
