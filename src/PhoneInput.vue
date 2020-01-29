@@ -47,6 +47,7 @@
            :id="name"
            v-on:input="handleChangePhoneNumber"
            v-bind:value="phone.number"
+           @keyup="changeCountry"
            readonly
            v-bind:placeholder="intlData"
     />
@@ -55,6 +56,8 @@
 
 <script>
     /* eslint-disable no-unused-vars */
+
+    import moment from "moment";
 
     const has = Object.hasOwnProperty
     const isObject = maybeObj => Object.prototype.toString.call(maybeObj) === '[object Object]'
@@ -414,7 +417,14 @@
                 search: '',
             }
         },
-
+        watch:{
+          'phone': {
+            handler: function (newValue) {
+              this.changeCountry()
+            },
+            deep: true
+          }
+        },
         computed: {
             intlData() {
                 return (this.chooseCountry) ? this.availableData[this.countryCode].example : this.placeholder
@@ -452,6 +462,24 @@
         },
 
         methods: {
+          changeCountry() {
+
+            if (this.phone.number && this.phone.number.length > 1 && this.phone.number.startsWith('+')) {
+              Object.keys(phonesData).forEach((key, index) => {
+
+                let phoneData = phonesData[key];
+                if (this.phone.number.startsWith('+' + phoneData.dialCode)) {
+
+                  Object.keys(phonesData).forEach((key, index) => {
+                    let phoneData = phonesData[key]
+                    if (phoneData.dialCode == this.phone.code) {
+                      this.countryCode = phoneData.code
+                    }
+                  })
+                }
+              });
+            }
+          },
             handleChangePhoneNumber(event) {
                 this.phone.number = event.target.value
 
@@ -498,9 +526,9 @@
         },
 
         mounted() {
-            if (isFunction(this.onInit)) {
-                this.onInit(this)
-            }
+
+              this.changeCountry()
+
         }
     }
 </script>
