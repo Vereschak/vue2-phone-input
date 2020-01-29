@@ -1,6 +1,6 @@
 {
   "name": "@danil.vereschak/vue2-phone-input",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Phone input with country list, country codes ..",
   "main": "src/PhoneInput.vue",
   "scripts": {},
