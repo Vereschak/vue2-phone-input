@@ -13,7 +13,7 @@
         <li>
           <div class="row">
             <div class="col s10">
-              <input @click.stop="" id="searchInput" v-model="search" value="" type="text"
+              <input @click.stop="" id="searchInput" v-model="search" value="" type="text" autocomplete="off"
                      placeholder="Country"/>
             </div>
           </div>
@@ -46,6 +46,7 @@
            v-bind:name="name"
            :id="name"
            v-on:input="handleChangePhoneNumber"
+           @click="showListWhenClick"
            v-bind:value="phone.number"
            @keyup="changeCountry"
            readonly
@@ -509,6 +510,12 @@ export default {
       input.focus()
     },
 
+    showListWhenClick(){
+      let input = document.getElementById(this.name)
+      if(input.hasAttribute('readonly')){
+        this.showList()
+      }
+    },
     showList() {
       this.isVisiblePanel = true
       setTimeout(function () {
